@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using UnityEngine;
+using System.Collections;
 
 public class Cell : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class Cell : MonoBehaviour
             }
             
         }
+        StartCoroutine(Move());
     }
     public Cell Target;
     public System.Random random = new System.Random();
@@ -42,18 +44,27 @@ public class Cell : MonoBehaviour
     }
     public float pushBackForce = 30;
     public int speed = 3;
-    // Update is called once per frame
-    void Update()
+    
+    
+    IEnumerator Move()
     {
-        if(Target != null)
+        Debug.Log("started moving towards " + Target);
+        while (Vector3.Distance(rb.position, Target.transform.position) > 0.0001f)
         {
-            Vector3 Move = Vector3.MoveTowards(transform.position, Target.transform.position, speed * Time.deltaTime);
-            rb.MovePosition(Move);
+
+            Vector3 move = Vector3.MoveTowards(rb.position, Target.transform.position, speed * Time.fixedDeltaTime);
+            
+            rb.MovePosition(move);
+            Debug.Log("moving");
+
+
+
+            yield return null;
         }
-        
     }
     private void OnTriggerEnter(Collider other)
     {
+        StopAllCoroutines();
         Debug.Log("hit Cell");
         Vector3 SpawnPoint = transform.position;
         int spawnNewCell = random.Next(0, 2);

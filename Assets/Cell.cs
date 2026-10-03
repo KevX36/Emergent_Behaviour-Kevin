@@ -6,7 +6,7 @@ public class Cell : MonoBehaviour
 {
     public void GetNewTarget()
     {
-        Debug.Log("getting new target");
+        //Debug.Log("getting new target");
         if(Target != null)
         {
             Target = null;
@@ -17,14 +17,14 @@ public class Cell : MonoBehaviour
         {
             int NewTarget = random.Next(0, GameManager.Instance.Cells.Count);
 
-            Debug.Log("check Cell: " + NewTarget);
+            //Debug.Log("check Cell: " + NewTarget);
             if (GameManager.Instance.Cells[NewTarget] != null)
             {
-                Debug.Log($"New target {GameManager.Instance.Cells[NewTarget]}");
+                //Debug.Log($"New target {GameManager.Instance.Cells[NewTarget]}");
                 if (GameManager.Instance.Cells[NewTarget] != this)
                 {
                     Target = GameManager.Instance.Cells[NewTarget];
-                    Debug.Log("target Confermed");
+                    //Debug.Log("target Confermed");
                 }
             }
             
@@ -49,12 +49,12 @@ public class Cell : MonoBehaviour
     IEnumerator Move()
     {
         Debug.Log("started moving towards " + Target);
-        while (Vector3.Distance(rb.position, Target.transform.position) > 0.0001f)
+        while (true)
         {
 
             Vector3 move = Vector3.MoveTowards(rb.position, Target.transform.position, speed * Time.fixedDeltaTime);
             
-            rb.MovePosition(move);
+            //rb.MovePosition(move);
             Debug.Log("moving");
 
 
@@ -69,9 +69,9 @@ public class Cell : MonoBehaviour
         Vector3 SpawnPoint = transform.position;
         int spawnNewCell = random.Next(0, 2);
 
-        Vector3 pushBack = Vector3.MoveTowards(transform.position, other.transform.position, speed * Time.deltaTime);
-
-        rb.AddForce(-pushBack * pushBackForce);
+        Vector3 pushBack = Vector3.MoveTowards(transform.position, other.transform.position, speed * pushBackForce);
+        Debug.Log(-pushBack);
+        rb.AddForce(-pushBack);
         if (spawnNewCell == 1)
         {
             Debug.Log("spawning new cell");

@@ -54,8 +54,8 @@ public class Cell : MonoBehaviour
 
             Vector3 move = Vector3.MoveTowards(rb.position, Target.transform.position, speed * Time.fixedDeltaTime);
             
-            //rb.MovePosition(move);
-            Debug.Log("moving");
+            rb.MovePosition(move);
+            //Debug.Log("moving");
 
 
 

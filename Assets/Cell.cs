@@ -39,13 +39,19 @@ public class Cell : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
         GetNewTarget();
+
+
+
+
     }
     public float pushBackForce = 30;
     public int speed = 3;
-    
-    
+    public void addToList()
+    {
+        GameManager.Instance.Cells.Add(this);
+        
+    }
     IEnumerator Move()
     {
         Debug.Log("started moving towards " + Target);
@@ -53,7 +59,7 @@ public class Cell : MonoBehaviour
         {
 
             Vector3 move = Vector3.MoveTowards(rb.position, Target.transform.position, speed * Time.fixedDeltaTime);
-            
+
             rb.MovePosition(move);
             //Debug.Log("moving");
 
@@ -62,19 +68,21 @@ public class Cell : MonoBehaviour
             yield return null;
         }
     }
-    private void OnTriggerEnter(Collider other)
+
+    private void OnCollisionEnter(Collision other)
     {
         StopAllCoroutines();
         Debug.Log("hit Cell");
         Vector3 SpawnPoint = transform.position;
         int spawnNewCell = random.Next(0, 2);
 
-        Vector3 pushBack = Vector3.MoveTowards(transform.position, other.transform.position, speed * pushBackForce);
-        Debug.Log(-pushBack);
-        rb.AddForce(-pushBack);
+        //Vector3 pushBack =
+        //Debug.Log(pushBack);
+        //rb.AddForce(pushBack);
         if (spawnNewCell == 1)
         {
             Debug.Log("spawning new cell");
+
         }
 
 

@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 public class Cell : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class Cell : MonoBehaviour
     public Cell Target;
     public System.Random random = new System.Random();
     public Rigidbody rb;
-    
+    public float BlastWait = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -46,45 +47,55 @@ public class Cell : MonoBehaviour
 
     }
     public float pushBackForce = 30;
-    public int speed = 3;
-    public void addToList()
-    {
-        GameManager.Instance.Cells.Add(this);
-        
-    }
+    public float speed = 3;
+    private bool Hit;
+    public Vector3 move;
+    public bool start = true;
     IEnumerator Move()
     {
-        Debug.Log("started moving towards " + Target);
-        while (true)
+        if (!start)
+        {
+            yield return new WaitForSeconds(BlastWait);
+        }
+        else
+        {
+            start = false;
+        }
+            rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        Hit = false;
+        //Debug.Log("started moving towards " + Target);
+        while (!Hit)
         {
 
-            Vector3 move = Vector3.MoveTowards(rb.position, Target.transform.position, speed * Time.fixedDeltaTime);
+            move = Vector3.MoveTowards(rb.position, Target.transform.position, speed * Time.fixedDeltaTime);
 
             rb.MovePosition(move);
-            //Debug.Log("moving");
+            //Debug.Log("moving to " + move);
 
 
 
             yield return null;
         }
     }
-
-    private void OnCollisionEnter(Collision other)
+    public GameObject cell;
+    private void OnTriggerEnter(Collider other)
     {
+        Hit = true;
         StopAllCoroutines();
         Debug.Log("hit Cell");
         Vector3 SpawnPoint = transform.position;
         int spawnNewCell = random.Next(0, 2);
+        Vector3 direction = (other.transform.position-transform.position).normalized;
+        Vector3 PushBack = direction * pushBackForce;
 
-        //Vector3 pushBack =
-        //Debug.Log(pushBack);
-        //rb.AddForce(pushBack);
+        other.gameObject.GetComponent<Rigidbody>().AddForce(PushBack);
+
         if (spawnNewCell == 1)
         {
             Debug.Log("spawning new cell");
-
+            //Instantiate(cell,SpawnPoint,transform.rotation);
         }
-
 
         GetNewTarget();
     }

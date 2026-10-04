@@ -130,10 +130,9 @@ MonoBehaviour:
   rb: {fileID: 0}
   BlastWait: 1
   pushBackForce: 1000
-  speed: 2
+  speed: 4
   move: {x: 0, y: 0, z: 0}
   start: 1
-  cell: {fileID: 3358285832429516599}
 --- !u!54 &6620681888281048700
 Rigidbody:
   m_ObjectHideFlags: 0

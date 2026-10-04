@@ -78,24 +78,19 @@ public class Cell : MonoBehaviour
             yield return null;
         }
     }
-    public GameObject cell;
+    
     private void OnTriggerEnter(Collider other)
     {
         Hit = true;
         StopAllCoroutines();
         Debug.Log("hit Cell");
-        Vector3 SpawnPoint = transform.position;
-        int spawnNewCell = random.Next(0, 2);
+        
         Vector3 direction = (other.transform.position-transform.position).normalized;
         Vector3 PushBack = direction * pushBackForce;
 
         other.gameObject.GetComponent<Rigidbody>().AddForce(PushBack);
 
-        if (spawnNewCell == 1)
-        {
-            Debug.Log("spawning new cell");
-            //Instantiate(cell,SpawnPoint,transform.rotation);
-        }
+        
 
         GetNewTarget();
     }

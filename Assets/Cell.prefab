@@ -130,7 +130,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   BlastWait: 1
   pushBackForce: 1000
-  speed: 4
+  speed: 8
   move: {x: 0, y: 0, z: 0}
   start: 1
 --- !u!54 &6620681888281048700

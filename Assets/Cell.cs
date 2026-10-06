@@ -78,19 +78,19 @@ public class Cell : MonoBehaviour
             yield return null;
         }
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         Hit = true;
         StopAllCoroutines();
         Debug.Log("hit Cell");
-        
-        Vector3 direction = (other.transform.position-transform.position).normalized;
+
+        Vector3 direction = (other.transform.position - transform.position).normalized;
         Vector3 PushBack = direction * pushBackForce;
 
         other.gameObject.GetComponent<Rigidbody>().AddForce(PushBack);
 
-        
+
 
         GetNewTarget();
     }
